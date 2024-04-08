@@ -24,8 +24,6 @@
     <script type="text/javascript" src="../js/site.js" DEFER></script>
 	<!-- Use me for a JavaScript OOP Project -->
 	<script type="text/javascript" src="./js/project.js" DEFER></script>
-	<!-- Use me for a p5.js project -->
-	<script type="text/javascript" src="./js/sketch.js" DEFER></script>
 </head>
 <body>
 	<!-- Style this page by changing the CSS in ../css/site.css or css/experiment.css -->
@@ -35,9 +33,13 @@
 			<h1>Experiment X - Subject/Topic</h1>
 
 			<div class="minor-section">
-				<div id="canvas-container">
-					<!-- canvas will be added here -->
-				</div>
+				<button id="clicker">
+					Reroll
+				  </button>
+				  <div
+				  	class="box"
+					id="box"
+				  ></div>
                 <div class="fullscreen-box">
                     <button id="fullscreen">Fullscreen</button>
                 </div>
@@ -45,17 +47,18 @@
 
 			<div class="minor-section">
 				<h2>Description</h2>
-				<p>What are you trying to acomplish with this experiment?</p>
+				<p>I'm making a summon simulator for Arknights and putting it on my portfolio page!</p>
 			</div>
 
 			<div class="minor-section">
 				<h2>Technical</h2>
-				<p>Describe in detail what you did technically and how it works?</p>
+				<p>I organized all of the operators into lists based on their rarities, then wrote a text template that generates a random 6 star operator, two random 5 star operators, five random 4 star operators, two random 3 star and 2 star operators, and a one 1 star operator, alongside a nice message for the user.</p>
 			</div>
 
 			<div class="minor-section">
 				<h2>Reflection</h2>
-				<p>Each person that worked on the code should reflect on the process, the difficulties, and the successes of the experiment.</p>
+				<p>I did this generator experiment in a rather tedious way. I manually entered the names of every single operator into several lists for my generator to pull from. It took a while, since there's hundreds of operators in Arknights to choose from. I worked through the wiki to get each name, but I'd imagine that if I were more knowledgeable, I'd be able to snag all of the data from the wiki through some line of code or command with minimal effort. However, I did not know how, so I did it the hard way.</p>
+				<p>The other difficulty I ran into was the text formatting. In Glitch, the text was fine, but on github pages, newlines just could not register for me at all. It was a big problem for me because I wrote my text template in a letter/list format, and it would look terrible without line breaks and spaces. I nearly gave up trying to figure it out, but ChatGPT helped me debug by letting me know of some hidden CSS styling options, specifically overflow/white-space. After setting overflow to visible and white-space to prewrap, I finally got new lines on github pages! It was a pretty satisfying result after that.</p>
 			</div>
 
 		</section>
