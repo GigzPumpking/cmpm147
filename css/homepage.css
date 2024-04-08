@@ -18,3 +18,9 @@
 .two-column>*:nth-child(2) {
   flex: 1;
 }
+
+.portrait-photo {
+  width: 50%;
+  height: auto;
+  border-radius: 10px;
+}
