@@ -1,199 +1,262 @@
 /* exported getInspirations, initDesign, renderDesign, mutateDesign */
 
+const whRatio = 16;
+
 function getInspirations() {
   return [
     {
-      name: "Grilled Cheese in the Airfryer",
-      assetUrl:
-        "https://cdn.glitch.global/469cb487-7465-4986-a3b9-ba3dea1ad22d/grilled_cheese.jpeg?v=1715032914025",
+      name: "Grilled Cheese in the Airfryer", 
+      assetUrl: "https://cdn.glitch.global/469cb487-7465-4986-a3b9-ba3dea1ad22d/grilled_cheese.jpeg?v=1715032914025",
       credit: "Grilled Cheese in the Airfryer, Hung Nguyen, 2022",
       key: "Grill",
+      bg: [0, 0, 0],
+      colors: [[47, 47, 47], [254, 251, 243], [237, 162, 57]]
     },
     {
-      name: "Neary Lagoon",
-      assetUrl:
-        "https://cdn.glitch.global/469cb487-7465-4986-a3b9-ba3dea1ad22d/neary_lagoon.jpeg?v=1715033523805",
+      name: "Neary Lagoon", 
+      assetUrl: "https://cdn.glitch.global/469cb487-7465-4986-a3b9-ba3dea1ad22d/neary_lagoon.jpeg?v=1715033523805",
       credit: "Neary Lagoon, Hung Nguyen, 2024",
       key: "Lagoon",
+      bg: [155, 148, 134],
+      colors: [[0, 0, 0], [116, 113, 107], [246, 214, 166]]
     },
     {
-      name: "Santa Cruz Ocean",
-      assetUrl:
-        "https://cdn.glitch.global/469cb487-7465-4986-a3b9-ba3dea1ad22d/ocean.jpeg?v=1715033518468",
+      name: "Santa Cruz Ocean", 
+      assetUrl: "https://cdn.glitch.global/469cb487-7465-4986-a3b9-ba3dea1ad22d/ocean.jpeg?v=1715033518468",
       credit: "Santa Cruz Ocean, Hung Nguyen, 2024",
       key: "Ocean",
-    },
+      bg: [63, 132, 211],
+      colors: [[46, 108, 179], [143, 134, 11], [34, 43, 50], [160, 147, 123], [82, 109, 128], [165, 192, 213]]
+    }
   ];
 }
 
 function initDesign(inspiration) {
-  resizeCanvas(inspiration.image.width / 16, inspiration.image.height / 16);
-
+  resizeCanvas(inspiration.image.width / whRatio, inspiration.image.height / whRatio);
+  inspiration.image.loadPixels();
+  let fill = inspiration.bg;
   let design = {
-    bg: inspiration.bg,
-    fg: [],
-  };
-
+    bg: fill,
+    fg: []
+  }
+  
   switch (inspiration.key) {
     case "Grill":
-      // Initialize design with 100 big rectangles in the background and 100 small triangles in the middle and another 50 rectangles in the foreground
-
-      // Make the background rectangles big and dark
-      for (let i = 0; i < 200; i++) {
-        // Rectangle vertices
-
-        let x = random(width);
-        let y = random(height);
-        let w = random(width / 2);
-        let h = random(height / 2);
-        let shape = "rectangle";
-        let layer = "bg";
-        let alpha = random(128);
-
-        design.fg.push({
-          x: x,
-          y: y,
-          w: w,
-          h: h,
-          fill: getColorIndex(floor(x), floor(y), inspiration.image),
-          shape: shape,
-          layer: layer,
-          alpha: alpha
-        });
-
-      for (let i = 0; i < 500; i++) {
-        // Triangle vertices
-
-        // Initialize triangles in the center of the canvas
-        // Make them lighter
-
-        let centerX = random(width / 4, (3 * width) / 4);
-        let centerY = random(height / 4, (3 * height) / 4);
-
-        let sizeMin = 3;
-
-        let x1 = centerX 
-        let y1 = centerY
-        let x2 = centerX + random(-width / sizeMin, width / sizeMin);
-        let y2 = centerY + random(-height / sizeMin, height / sizeMin);
-        let x3 = centerX + random(-width / sizeMin, width / sizeMin);
-        let y3 = centerY + random(-height / sizeMin, height / sizeMin);
-        let shape = "triangle";
-        let layer = "fg";
-        let alpha = random(128, 255);
-
-        design.fg.push({
-          x1: x1,
-          y1: y1,
-          x2: x2,
-          y2: y2,
-          x3: x3,
-          y3: y3,
-          fill: getColorIndex(floor(x1), floor(y1), inspiration.image),
-          shape: shape,
-          layer: layer,
-          alpha: alpha
-        });
+      for(let i = 0; i < 75; i++) {
+        // Shades of dark
+        let x = floor(random(width));
+        let y = floor(random(height));
+        let w = floor(random(width/2));
+        let h = floor(random(height/2));
+        design.fg.push({x: x,
+                        y: y,
+                        w: w,
+                        h: h,
+                        fill: [47, 47, 47],
+                        alpha: random(0, 255),
+                        shape: "rect",
+                        color: fill,
+                      })
       }
-      for (let i = 0; i < 10; i++) {
-        // Rectangle vertices
-        // Make these rectangles darker
-        // Limit them to inside of the triangles
+      for(let i = 0; i < 50; i++) {
+        // Shades of light gray
+        let x = floor(random(width));
+        let y = floor(random(height));
+        let w = floor(random(width/2));
+        let h = floor(random(height/2));
+        design.fg.push({x: x,
+                        y: y,
+                        w: w,
+                        h: h,
+                        fill: [254, 251, 243],
+                        alpha: random(0, 255),
+                        shape: "rect",
+                        color: fill,
+                      })
+      }
+      for(let i = 0; i < 25; i++) {
+        // Shades of orange
 
-        let x = random(width/4, (3 * width) / 4);
-        let y = random(height/4, (3 * height) / 4);
-        let w = random(width / 2);
-        let h = random(height / 2);
-        let shape = "rectangle";
-        let layer = "fg";
-        let alpha = random(128);
-
-        design.fg.push({
-          x: x,
-          y: y,
-          w: w,
-          h: h,
-          fill: getColorIndex(floor(x), floor(y), inspiration.image),
-          shape: shape,
-          layer: layer,
-          alpha: alpha
-        });
+        // Initialized in the middle
+        let x = floor(random(width/2 - width/4, width/2 + width/4));
+        let y = floor(random(height/2 - height/4, height/2 + height/4));
+        let w = floor(random(width/4));
+        let h = floor(random(height/4));
+        design.fg.push({x: x,
+                        y: y,
+                        w: w,
+                        h: h,
+                        fill: [237, 162, 57],
+                        alpha: random(0, 255),
+                        shape: "rect",
+                        color: fill,
+                      })
       }
       break;
-    }
+    case "Lagoon":
+      // 200 black triangles
+      for(let i = 0; i < 200; i++) {
+        // equilateral triangle
+        let x1 = random(width);
+        let y1 = random(height);
+        let x2 = x1 + random(-width/6, width/6);
+        let y2 = y1 + random(-height/6, height/6);
+        let x3 = x1 + random(-width/6, width/6);
+        let y3 = y1 + random(-height/6, height/6);
+        design.fg.push({x1: x1,
+                        y1: y1,
+                        x2: x2,
+                        y2: y2,
+                        x3: x3,
+                        y3: y3,
+                        fill: [0, 0, 0],
+                        alpha: random(0, 255),
+                        shape: "triangle",
+                        color: fill,
+                        rotation: random(TWO_PI)
+                      })
+      }
+      // 200 gray triangles
+      for(let i = 0; i < 200; i++) {
+        // equilateral triangle
+        let x1 = random(width);
+        let y1 = random(height);
+        let x2 = x1 + random(-width/6, width/6);
+        let y2 = y1 + random(-height/6, height/6);
+        let x3 = x1 + random(-width/6, width/6);
+        let y3 = y1 + random(-height/6, height/6);
+        design.fg.push({x1: x1,
+                        y1: y1,
+                        x2: x2,
+                        y2: y2,
+                        x3: x3,
+                        y3: y3,
+                        fill: [116, 113, 107],
+                        alpha: random(0, 255),
+                        shape: "triangle",
+                        color: fill,
+                        rotation: random(TWO_PI)
+                      })
+      }
+      break;
+    case "Ocean":
+      // Create 200 blue ellipses
+      for(let i = 0; i < 400; i++) {
+        let x = random(width);
+        let y = random(height);
+        let w = random(width/4);
+        let h = random(height/4);
+        design.fg.push({x: x,
+                        y: y,
+                        w: w,
+                        h: h,
+                        fill: [46, 108, 179],
+                        alpha: random(0, 255),
+                        shape: "ellipse",
+                        color: fill,
+                      })
+      }
+      // Create 200 brown ellipses
+      for(let i = 0; i < 300; i++) {
+        let x = random(width);
+        let y = random(height);
+        let w = random(width/4);
+        let h = random(height/4);
+        design.fg.push({x: x,
+                        y: y,
+                        w: w,
+                        h: h,
+                        fill: [143, 134, 11],
+                        alpha: random(0, 255),
+                        shape: "ellipse",
+                        color: fill,
+                      })
+      }
+      // Create 200 seafoam colored ellipses
+      for(let i = 0; i < 400; i++) {
+        let x = random(width);
+        let y = random(height);
+        let w = random(width/8);
+        let h = random(height/8);
+        design.fg.push({x: x,
+                        y: y,
+                        w: w,
+                        h: h,
+                        fill: [168, 186, 201],
+                        alpha: random(0, 255),
+                        shape: "ellipse",
+                        color: fill,
+                      })
+      }
 
+      break;
   }
-
+  
   return design;
 }
 
-function getColorIndex(xpos, ypos, img) {
-  let index = (ypos * img.width + xpos) * 4;
-  let rval = [img.pixels[index], img.pixels[index + 1], img.pixels[index + 2]];
-  return rval;
-}
-
 function renderDesign(design, inspiration) {
-  background(design.bg[0], design.bg[1], design.bg[2], design.bg[3]);
-  for (let shape of design.fg) {
-    fill(shape.fill[0], shape.fill[1], shape.fill[2], shape.alpha);
-    switch (shape.shape) {
-      case "triangle":
-        triangle(shape.x1, shape.y1, shape.x2, shape.y2, shape.x3, shape.y3);
-        break;
-      case "rectangle":
-        rect(shape.x, shape.y, shape.w, shape.h);
-        break;
+  background(design.bg[0], design.bg[1], design.bg[2]);
+  noStroke();
+  for(let obj of design.fg) {
+    fill(obj.color[0], obj.color[1], obj.color[2], obj.alpha);
+    if (obj.shape === "rect") {
+      push();
+      translate(obj.x, obj.y);
+      rect(0, 0, obj.w, obj.h);
+      pop();
+    }
+    else if (obj.shape === "triangle") { 
+      push();
+      translate(obj.x1, obj.y1);
+      rotate(obj.rotation);
+      triangle(0, 0, obj.x2 - obj.x1, obj.y2 - obj.y1, obj.x3 - obj.x1, obj.y3 - obj.y1);
+      pop();
+    } else if (obj.shape === "ellipse") {
+      ellipse(obj.x, obj.y, obj.w, obj.h);
     }
     noFill();
   }
+  
+  
 }
 
 function mutateDesign(design, inspiration, rate) {
-  design.bg = mut(design.bg, 0, 255, rate);
-  for (let shape of design.fg) {
-    switch (inspiration.key) {
-        case "Grill":
-            shape.alpha = mut(shape.alpha, 0, 255, rate);
-            switch (shape.shape) {
-                case "triangle":
-                    // limit the size of the triangles using the x1 and y1 vertices
-                    // make the triangle equilateral
-                    shape.x1 = mut(shape.x1, 0, width, rate);
-                    shape.y1 = mut(shape.y1, 0, height, rate);
-                    shape.x2 = shape.x1 + mut(shape.x2 - shape.x1, -width / 3, width / 3, rate);
-                    shape.y2 = shape.y1 + mut(shape.y2 - shape.y1, -height / 3, height / 3, rate);
-                    shape.x3 = shape.x1 + mut(shape.x3 - shape.x1, -width / 3, width / 3, rate);
-                    shape.y3 = shape.y1 + mut(shape.y3 - shape.y1, -height / 3, height / 3, rate);
-                    shape.fill = getColorIndex(floor(shape.x1), floor(shape.y1), inspiration.image);
-                    break;
-                case "rectangle":
-                    if (shape.layer == "bg") {
-                        shape.x = mut(shape.x, 0, width, rate);
-                        shape.y = mut(shape.y, 0, height, rate);
-                        shape.w = mut(shape.w, 0, width / 2, rate);
-                        shape.h = mut(shape.h, 0, height / 2, rate);
-                        shape.fill = getColorIndex(floor(shape.x), floor(shape.y), inspiration.image);
-                    }
-                    else if (shape.layer == "fg") {
-                        shape.x = mut(shape.x, 0, width, rate);
-                        shape.y = mut(shape.y, 0, height, rate);
-                        shape.w = mut(shape.w, 0, width / 2, rate);
-                        shape.h = mut(shape.h, 0, height / 2, rate);
-                        shape.fill = getColorIndex(floor(shape.x), floor(shape.y), inspiration.image);
-                    }
-                    
-                    break;
-                }
-            break;
-        case "Lagoon":
-            break;
-        case "Ocean":
-            break;
+  
+  for(let obj of design.fg) {
+    if (obj.shape === "rect") {
+      obj.x = mut(obj.x, 0, width, rate);
+      obj.y = mut(obj.y, 0, height, rate);
+      obj.w = mut(obj.w, 0, width/2, rate);
+      obj.h = mut(obj.h, 0, height/2, rate);
+    }
+    else if (obj.shape === "triangle") {
+      obj.x1 = mut(obj.x1, 0, width, rate);
+      obj.y1 = mut(obj.y1, 0, height, rate);
+      obj.x2 = mut(obj.x2, 0, width, rate);
+      obj.y2 = mut(obj.y2, 0, height, rate);
+      obj.x3 = mut(obj.x3, 0, width, rate);
+      obj.y3 = mut(obj.y3, 0, height, rate);
+      obj.rotation = mut(obj.rotation, 0, TWO_PI, rate);
+    }
+    else if (obj.shape === "ellipse") {
+      obj.x = mut(obj.x, 0, width, rate);
+      obj.y = mut(obj.y, 0, height, rate);
+      obj.w = mut(obj.w, 0, width/8, rate);
+      obj.h = mut(obj.h, 0, height/8, rate);
+    }
+    obj.alpha = mut(obj.alpha, 0, 255, rate);
+    // randomize the fill color at the rate
+    if(random(1) < rate) {
+      obj.fill = inspiration.colors[floor(random(inspiration.colors.length))];
+    }
+    // mut each color channel within a specific range of the fill
+    for(let i = 0; i < 3; i++) {
+      obj.color[i] = mut(obj.fill[i], 0, 255, rate);
     }
   }
 }
 
 function mut(num, min, max, rate) {
-  return constrain(randomGaussian(num, (rate * (max - min)) / 10), min, max);
+    return constrain(randomGaussian(num, (rate * (max - min)) / 10), min, max);
 }
